@@ -1,6 +1,7 @@
 {
     "name": "patressz/laravel-starter",
     "description": "Laravel starter kit",
+    "license": "MIT",
     "authors": [
         {
             "name": "Patrik Strišovský",
@@ -20,7 +21,9 @@
             ]
         }
     },
-    "require": {
+    "require-dev": {
         "laravel/pint": "^1.13"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
