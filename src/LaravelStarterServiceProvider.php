@@ -1,6 +1,6 @@
 <?php
 
-namespace Patressz\LaravelStarter\Console;
+namespace Patressz\LaravelStarter;
 
 use Illuminate\Support\ServiceProvider;
 
