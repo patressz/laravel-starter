@@ -1,0 +1,26 @@
+{
+    "name": "patressz/laravel-starter",
+    "description": "Laravel starter kit",
+    "authors": [
+        {
+            "name": "Patrik Strišovský",
+            "email": "patrik.strisovsky7@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Patressz\\LaravelStarter\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Patressz\\LaravelStarter\\LaravelStarterServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "laravel/pint": "^1.13"
+    }
+}

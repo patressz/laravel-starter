@@ -1,0 +1,13 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+// Components
+@import "partials/buttons";
+@import "partials/table";
