@@ -4,6 +4,8 @@ namespace Patressz\LaravelStarter\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Process;
+use RuntimeException;
 
 class InstallCommand extends Command
 {
@@ -27,10 +29,10 @@ class InstallCommand extends Command
     public function handle()
     {
         // Require laravel breeze
-        shell_exec('composer require laravel/breeze --dev');
+        $this->requireComposerPackages(['laravel/breeze'], true);
 
         // Require laravel blade components
-        shell_exec('composer require patressz/laravel-blade-components');
+        $this->requireComposerPackages(['patressz/laravel-blade-components']);
 
         // Install npm packages
         shell_exec('yarn add tailwindcss postcss autoprefixer sass --dev');
@@ -70,6 +72,56 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/js', resource_path('js'));
 
         // Build npm
-        shell_exec('yarn build');
+        $this->runCommands(['yarn install', 'yarn run build']);
+
+        $this->line('');
+        $this->components->info('Laravel starter installed successfully.');
+    }
+
+    /**
+     * Installs the given Composer Packages into the application.
+     * Taken from https://github.com/laravel/breeze/blob/1.x/src/Console/InstallCommand.php
+     *
+     * @param  bool  $asDev
+     * @return bool
+     */
+    protected function requireComposerPackages(array $packages, $asDev = false)
+    {
+
+        $command = array_merge(
+            ['composer', 'require'],
+            $packages,
+            $asDev ? ['--dev'] : [],
+        );
+
+        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            }) === 0;
+    }
+
+    /**
+     * Run the given commands.
+     * Taken from https://github.com/laravel/breeze/blob/1.x/src/Console/InstallCommand.php
+     *
+     * @param  array  $commands
+     * @return void
+     */
+    protected function runCommands($commands)
+    {
+        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
+
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            try {
+                $process->setTty(true);
+            } catch (RuntimeException $e) {
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
+            }
+        }
+
+        $process->run(function ($type, $line) {
+            $this->output->write('    '.$line);
+        });
     }
 }

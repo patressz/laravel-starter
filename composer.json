@@ -24,6 +24,10 @@
     "require-dev": {
         "laravel/pint": "^1.13"
     },
+    "require": {
+        "illuminate/support": "^10.29",
+        "illuminate/filesystem": "^10.29"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
