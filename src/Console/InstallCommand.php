@@ -45,14 +45,17 @@ class InstallCommand extends Command
         (new Filesystem)->delete(app_path('Http/Requests/ProfileUpdateRequest.php'));
         (new Filesystem)->delete(app_path('Http/Controllers/ProfileController.php'));
         (new Filesystem)->deleteDirectory(app_path('View'));
+        (new Filesystem)->deleteDirectory(resource_path('css'));
 
         // Ensure if direfcotires exists
-
         (new Filesystem)->ensureDirectoryExists(resource_path('views'));
         (new Filesystem)->ensureDirectoryExists(resource_path('sass'));
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));
         (new Filesystem)->ensureDirectoryExists(base_path('routes'));
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers/Admin'));
+
+        // Clean directories
+        (new Filesystem)->cleanDirectory(resource_path('views'));
 
         // Copy files and directories
         copy(__DIR__.'/../../resources/stubs/web.php', base_path('routes/web.php'));
