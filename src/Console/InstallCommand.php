@@ -35,14 +35,26 @@ class InstallCommand extends Command
         $this->requireComposerPackages(['patressz/laravel-blade-components']);
 
         // Install npm packages
-        shell_exec('yarn add tailwindcss postcss autoprefixer sass --dev');
-        shell_exec('yarn add sweetalert2');
+        $this->updateNodePackages(function ($packages) {
+            return [
+                'tailwindcss',
+                'postcss',
+                'autoprefixer',
+                'sass',
+            ] + $packages;
+        });
+
+        $this->updateNodePackages(function ($packages) {
+            return [
+                'sweetalert2',
+            ] + $packages;
+        }, false);
 
         // Install breeze
-        shell_exec('php artisan breeze:install blade');
+        $this->runCommands(['php artisan breeze:install blade']);
 
         // Install tailwindcss
-        shell_exec('npx tailwindcss init -p');
+        $this->runCommands(['npx tailwindcss init -p']);
 
         // Delete relevant files and directories
         (new Filesystem)->delete(app_path('Http/Requests/ProfileUpdateRequest.php'));
@@ -99,6 +111,36 @@ class InstallCommand extends Command
             ->run(function ($type, $output) {
                 $this->output->write($output);
             }) === 0;
+    }
+
+    /**
+     * Update the "package.json" file.
+     * Taken from https://github.com/laravel/breeze/blob/1.x/src/Console/InstallCommand.php
+     *
+     * @param  bool  $dev
+     * @return void
+     */
+    protected static function updateNodePackages(callable $callback, $dev = true)
+    {
+        if (! file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $configurationKey = $dev ? 'devDependencies' : 'dependencies';
+
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
+
+        $packages[$configurationKey] = $callback(
+            array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
+            $configurationKey
+        );
+
+        ksort($packages[$configurationKey]);
+
+        file_put_contents(
+            base_path('package.json'),
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+        );
     }
 
     /**
