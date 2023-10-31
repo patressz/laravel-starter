@@ -2,6 +2,7 @@
 
 namespace Patressz\LaravelStarter;
 
+use App\Console\Commands\InstallCommand;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelStarterServiceProvider extends ServiceProvider
