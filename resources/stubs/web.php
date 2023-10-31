@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::name('admin.')->prefix('admin')->middleware('auth')->group(function () {
-    Route::resource('example', ExampleController::class);
+    Route::get('example', ExampleController::class);
 });
 
 require __DIR__.'/auth.php';
