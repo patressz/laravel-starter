@@ -34,6 +34,7 @@ class InstallCommand extends Command
 
         // Install npm packages
         shell_exec('yarn add tailwindcss postcss autoprefixer sass --dev');
+        shell_exec('yarn add sweetalert2');
 
         // Install breeze
         shell_exec('php artisan breeze:install blade');
@@ -67,5 +68,8 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/views', resource_path('views'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/sass', resource_path('sass'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/js', resource_path('js'));
+
+        // Build npm
+        shell_exec('yarn build');
     }
 }
