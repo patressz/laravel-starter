@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ExampleController;
 use Illuminate\Support\Facades\Route;
 
 /*
