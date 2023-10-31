@@ -53,12 +53,8 @@ class InstallCommand extends Command
         copy(__DIR__.'/../../resources/stubs/tailwind.config.js', base_path('tailwind.config.js'));
         copy(__DIR__.'/../../resources/stubs/ExampleController.php', app_path('Http/Controllers/Admin/ExampleController.php'));
 
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/views', resource_path());
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/sass', resource_path());
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/js', resource_path());
-
-        // Ensure if directories exists
-        (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers/Admin'));
-
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/views', resource_path('views'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/sass', resource_path('sass'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/js', resource_path('js'));
     }
 }
