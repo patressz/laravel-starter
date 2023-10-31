@@ -46,17 +46,19 @@ class InstallCommand extends Command
         (new Filesystem)->delete(app_path('Http/Controllers/ProfileController.php'));
         (new Filesystem)->deleteDirectory(app_path('View'));
 
-        // Copy routes
+        // Copy files and directories
         (new Filesystem)->copy(__DIR__.'/../../resources/stubs/routes.php', base_path('routes/web.php'));
         (new Filesystem)->copy(__DIR__.'/../../resources/stubs/auth.php', base_path('routes/auth.php'));
+        (new Filesystem)->copy(__DIR__.'/../../resources/stubs/vite.config.js', base_path());
+        (new Filesystem)->copy(__DIR__.'/../../resources/stubs/tailwind.config.js', base_path());
+        (new Filesystem)->copy(__DIR__.'/../../resources/stubs/ExampleController.php', app_path('Http/Controllers/Admin'));
 
-        // Copy views files
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/views', resource_path());
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/sass', resource_path());
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/js', resource_path());
 
         // Ensure if directories exists
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers/Admin'));
 
-        // Copy ExampleController
-        (new Filesystem)->copy(__DIR__.'/../../stubs/ExampleController.php', app_path('Http/Controllers/Admin'));
     }
 }
