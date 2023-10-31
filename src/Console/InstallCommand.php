@@ -50,7 +50,7 @@ class InstallCommand extends Command
         (new Filesystem)->copy(__DIR__.'/../../resources/stubs/routes.php', base_path('routes/web.php'));
 
         // Copy views files
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/views');
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/stubs/views', resource_path());
 
         // Ensure if directories exists
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers/Admin'));
