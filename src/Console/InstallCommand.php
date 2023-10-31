@@ -4,8 +4,8 @@ namespace Patressz\LaravelStarter\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Process;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
