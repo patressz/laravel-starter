@@ -37,16 +37,14 @@ class InstallCommand extends Command
         // Install npm packages
         $this->updateNodePackages(function ($packages) {
             return [
-                'tailwindcss',
-                'postcss',
-                'autoprefixer',
-                'sass',
+                'tailwindcss' => '3.3.5',
+                'sass' => '1.69.5',
             ] + $packages;
         });
 
         $this->updateNodePackages(function ($packages) {
             return [
-                'sweetalert2',
+                'sweetalert2' => '11.9.0',
             ] + $packages;
         }, false);
 
